@@ -1,0 +1,298 @@
+/******************************************************************************/
+/************** Carte principale Robot 1 : DSPIC33FJ128MC804*******************/
+/******************************************************************************/
+/* Fichier 	: srategie.c
+ * Auteur  	: Quentin
+ * Revision	: 1.0
+ * Date		: 07 février 2015, 22:47
+ *******************************************************************************
+ *
+ *
+ ******************************************************************************/
+
+/******************************************************************************/
+/******************************** INCLUDES ************************************/
+/******************************************************************************/
+
+#include "strategie.h"
+
+// Configuration robot
+#define ROBOT_DIAG 365
+#define ROBOT_LONGUEUR 250
+#define ROBOT_LARGEUR (91+174)
+static const double robot_diag_2 = ROBOT_DIAG/2;
+static const double robot_longueur_2 = ROBOT_LONGUEUR/2;
+static const double robot_largeur_2 = ROBOT_LARGEUR/2;
+static const double calage_deplacement_min = ROBOT_DIAG/2 - ROBOT_LONGUEUR/2 + 25;
+
+#define TEST_EVITEMENT(x, y, d) (((EVITEMENT_ADV.detection == ON) && (abs((int) (get_X() - (x)))) > (d)) && (abs((int) (get_Y() - (y))) > (d)))
+#define EVITEMENT_AVANCER { EVITEMENT_ADV.sens = MARCHE_AVANT; avancer_reculer(250, 10); EVITEMENT_ADV.sens = MARCHE_ARRIERE; }
+#define EVITEMENT_RECULER { EVITEMENT_ADV.sens = MARCHE_ARRIERE; avancer_reculer(-250, 10); EVITEMENT_ADV.sens = MARCHE_AVANT; }
+
+/******************************************************************************/
+/******************************************************************************/
+/******************************************************************************/
+
+void tour_de_table() {
+    rejoindre(750, 750, MARCHE_AVANT, 100);
+    cibler(2250,750,30);
+    //avancer_reculer(1000, 70);
+    //init_X(2000);
+    rejoindre(2250, 750, MARCHE_AVANT, 100);
+    cibler(2250,1250,30);
+            
+    rejoindre(2250, 1250, MARCHE_AVANT, 100);
+    cibler(750,1250,30);
+            
+    rejoindre(750, 1250, MARCHE_AVANT, 100);
+    cibler(750,750,30);
+            
+    rejoindre(750, 750, MARCHE_AVANT, 100);
+    cibler(2250,750,30);
+    brake();
+}
+
+// Récupération plante 4 (STRAT1) ou plante 1 (STRAT2)
+uint8_t recup_plante4_ou_1(bool test, _enum_strategies STRATEGIE) {
+    return DEPLACEMENT_NORMAL;
+}
+
+// Récupération plante 5 (STRAT1) ou 2 (STRAT2)
+uint8_t recup_plante5_ou_2(bool test, _enum_strategies STRATEGIE) {
+    return DEPLACEMENT_NORMAL;
+}
+
+// Récupération plante 5 (STRAT1) ou 2 (STRAT2) / stratégie alternative
+uint8_t recup_plante5_ou_2_alt(bool test, _enum_strategies STRATEGIE, double x_target, double y_target, double x_evitement) {
+    return DEPLACEMENT_NORMAL;
+}
+
+// Dépose dans la zone de départ de la stratégie 1
+uint8_t depose_zone_depart_strat1(bool test) {
+    return DEPLACEMENT_NORMAL;
+}
+
+// Dépose dans la zone de départ de la stratégie 2
+uint8_t depose_zone_depart_strat2(bool test) {
+    return DEPLACEMENT_NORMAL;
+}
+
+// Dépose jardinière 1
+uint8_t depose_jardiniere1(bool test, _enum_strategies STRATEGIE) {
+    return DEPLACEMENT_NORMAL;
+}
+
+// Récupération Plante 3
+// use_bras = 1 -> récupération de 3 plantes par le bras + 3 plantes par les pinces
+// use_bras = 0 -> récupération des 6 plantes par les pinces
+uint8_t recup_plante3(bool test, bool use_bras, _enum_strategies STRATEGIE) {
+    return DEPLACEMENT_NORMAL;
+}
+
+// Dépose jardinière 2
+uint8_t depose_jardiniere2(bool test, _enum_strategies STRATEGIE) {
+    return DEPLACEMENT_NORMAL;
+}
+
+// Dépose dans la zone réservée
+uint8_t depose_zone_reservee(bool test, _enum_strategies STRATEGIE) {
+    return DEPLACEMENT_NORMAL;
+}
+
+// Dépose dans la zone réservée / alternative
+uint8_t depose_zone_reservee_alt(bool test, _enum_strategies STRATEGIE) {
+    return DEPLACEMENT_NORMAL;
+}
+
+// Dépose jardinière 3
+uint8_t depose_jardiniere3(bool test, _enum_strategies STRATEGIE) {
+    return DEPLACEMENT_NORMAL;
+}
+
+// Préparation de l'activation des panneaux solaires
+uint8_t activation_panneaux_solaires(bool test, _enum_strategies STRATEGIE, uint8_t couleur) {
+    return DEPLACEMENT_NORMAL;
+}
+
+// Retour vers la zone de recharge
+uint8_t retour_zone_recharge(bool test, _enum_strategies STRATEGIE) {
+    return DEPLACEMENT_NORMAL;
+}
+
+// Stratégie de match
+void strategie(){
+    COULEUR = couleur_depart();
+    STRATEGIE = STRAT1; //strategie_depart();
+
+    // Initialisation
+    EVITEMENT_ADV.actif = OFF;
+    EVITEMENT_ADV.mode = STOP;
+    EVITEMENT_ADV.sens = MARCHE_AVANT;
+    CPT_TEMPS_MATCH.actif = OFF;
+
+    init_AX12();
+    calage_depart(STRATEGIE);
+
+    EVITEMENT_ADV.actif = ON;
+    EVITEMENT_ADV.mode = ACTION_EVITEMENT;
+
+    while(SYS_JACK);
+    CPT_TEMPS_MATCH.actif = ON;
+
+    if (STRATEGIE == STRAT2) activation_panneaux_solaires(false, STRATEGIE, COULEUR);
+
+    if (recup_plante4_ou_1(false, STRATEGIE) == EVITEMENT) {
+        const double x_target = (STRATEGIE == STRAT1) ? 2000 : 1000;
+        const double y_target = (STRATEGIE == STRAT1) ? 1300 : 700;
+        const double x_evitement = (STRATEGIE == STRAT1) ? 3000 - 225 : 225;
+        recup_plante5_ou_2_alt(false, STRATEGIE, x_target, y_target, x_evitement); // Pas de stratégie alternative en cas d'évitement lors de la récupération de plante 5
+    } else
+        recup_plante5_ou_2(false, STRATEGIE); // Pas de stratégie alternative en cas d'évitement lors de la récupération de plante 5
+
+    if (STRATEGIE == STRAT1) {
+        if (depose_zone_depart_strat1(false)) {
+            depose_jardiniere2(false, STRATEGIE);
+            depose_zone_reservee_alt(false, STRATEGIE);
+            depose_jardiniere3(false, STRATEGIE);
+        } else {
+            if (depose_jardiniere1(false, STRATEGIE))
+                recup_plante3(false, false, STRATEGIE); // pince uniquement
+            else
+                recup_plante3(false, true, STRATEGIE); // bras + pince
+            depose_jardiniere2(false, STRATEGIE);
+            depose_zone_reservee(false, STRATEGIE);
+        }
+        activation_panneaux_solaires(false, STRATEGIE, COULEUR);
+    } else { // STRAT2
+        depose_jardiniere2(false, STRATEGIE);
+        depose_zone_reservee_alt(false, STRATEGIE);
+        depose_jardiniere3(false, STRATEGIE);
+        recup_plante3(false, false, STRATEGIE);
+        depose_zone_depart_strat2(false);
+        recup_plante5_ou_2_alt(false, STRATEGIE, (double) 2000, (double) 1300, (double) 1500);
+        depose_zone_depart_strat1(false);
+        depose_jardiniere1(false, STRATEGIE);
+    }
+    
+    retour_zone_recharge(false, STRATEGIE);
+    brake();
+    
+    while(1);
+}
+
+void homologation() {
+    COULEUR = couleur_depart();
+    STRATEGIE = STRAT2; //strategie_depart();
+
+    // Initialisation
+    EVITEMENT_ADV.actif = OFF;
+    EVITEMENT_ADV.mode = STOP;
+    EVITEMENT_ADV.sens = MARCHE_AVANT;
+    CPT_TEMPS_MATCH.actif = OFF;
+
+    init_AX12();
+    calage_depart(STRATEGIE);
+
+    EVITEMENT_ADV.actif = ON;
+    EVITEMENT_ADV.mode = STOP;
+
+    while(SYS_JACK);
+    CPT_TEMPS_MATCH.actif = ON;
+
+    //avancer_reculer(1000,20);
+    activation_panneaux_solaires(false, STRATEGIE, COULEUR);
+    
+    while(1);
+
+    brake();
+}
+
+//Initialise les positions des AX-12
+inline void init_AX12(){
+    init_ax();
+}
+
+// Permet de caler le robot sur les bords pour connaitre sa position
+void calage_depart(_enum_strategies STRATEGIE){
+    init_position_robot(0., 0., 0.); //utile
+    
+    if (STRATEGIE == STRAT1) { // Départ du milieu
+        calage_X(3000 - robot_largeur_2, 0, MARCHE_ARRIERE, 10);
+        avancer_reculer(500, 25);
+        orienter(90,25);
+        calage_Y(robot_largeur_2, 90, MARCHE_AVANT, 10);
+        avancer_reculer(-200, 25);
+        rejoindre(2775, 1500, MARCHE_ARRIERE, 25);
+        orienter(0,25);
+    } else { // Départ du coin
+        calage_X(robot_largeur_2, 0, MARCHE_ARRIERE, 10);
+        avancer_reculer(200, 25);
+        orienter(90,25);
+        calage_Y(robot_largeur_2, 90, MARCHE_AVANT, 10);
+        avancer_reculer(-robot_diag_2, 25);
+        rejoindre(225, 2000 - robot_diag_2, MARCHE_ARRIERE, 25);
+        orienter(0,25);
+    }
+}
+
+
+/******************************************************************************/
+/**************************** FONCTION ACTIONNEUR *****************************/
+/******************************************************************************/
+
+#ifdef GROS_ROBOT
+
+#endif
+
+#ifdef PETIT_ROBOT
+void bras_recup_rack_int(){
+
+    angle_AX12(11, 620, 300, SANS_ATTENTE);
+    angle_AX12(12, 800, 300, SANS_ATTENTE);
+    angle_AX12(13, 200, 300, SANS_ATTENTE);
+    //lancer_autom_AX12();
+    delay_ms(500);
+    
+    angle_AX12(21, 395, 300, SANS_ATTENTE);
+    angle_AX12(22, 800, 300, SANS_ATTENTE);
+    angle_AX12(23, 200, 300, SANS_ATTENTE);
+    //lancer_autom_AX12(); 
+}
+void bras_recup_rack_ext(){
+    angle_AX12(11, 600, 300, SANS_ATTENTE);
+    angle_AX12(12, 600, 300, SANS_ATTENTE);
+    angle_AX12(13, 500, 300, SANS_ATTENTE);
+    //lancer_autom_AX12();
+    delay_ms(500);
+    
+    angle_AX12(21, 400, 300, SANS_ATTENTE);
+    angle_AX12(22, 600, 300, SANS_ATTENTE);
+    angle_AX12(23, 500, 300, SANS_ATTENTE);
+    //lancer_autom_AX12();
+}
+
+void bras_depose_ext(){
+    angle_AX12(11, 800, 300, SANS_ATTENTE);
+    angle_AX12(12, 700, 300, SANS_ATTENTE);
+    angle_AX12(13, 400, 300, SANS_ATTENTE);
+    //lancer_autom_AX12();
+    delay_ms(500);
+    
+    angle_AX12(21, 200, 300, SANS_ATTENTE);
+    angle_AX12(22, 700, 300, SANS_ATTENTE);
+    angle_AX12(23, 400, 300, SANS_ATTENTE);
+    
+}
+void bras_depose(){
+    angle_AX12(6,875,200,SANS_ATTENTE);
+}
+
+#endif
+
+
+//Autre
+void attendre(uint32_t ms)
+{
+    uint32_t temp = CPT_TEMPS_MATCH.t_ms;
+    while(CPT_TEMPS_MATCH.t_ms - temp < ms); 
+}

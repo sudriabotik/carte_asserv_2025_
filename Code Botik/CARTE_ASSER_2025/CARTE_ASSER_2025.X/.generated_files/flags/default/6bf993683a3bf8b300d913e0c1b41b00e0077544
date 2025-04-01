@@ -1,0 +1,1 @@
+ -c -mcpu=$(MP_PROCESSOR_OPTION)      -g -D__DEBUG     -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -fno-short-double -mlarge-code -msmall-data -O0 -msmart-io=1 -Werror -Wall -msfr-warn=off   -fshort-enums D:\Code Botik\CARTE_ASSER_2025\CARTE_ASSER_2025.X\evitement.c
