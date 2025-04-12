@@ -33,9 +33,6 @@ void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt(void)
     // odométrie
    calcul_position_robot();
    
-    #ifdef DEBUG_CODEURS
-    debug_codeurs();
-    #endif
 
 
    if (FLAG_ASSERV.totale == ON)
@@ -99,7 +96,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _T3Interrupt(void)
     
     TIMER_20ms = DESACTIVE;
     
-    //autom_20ms();
+    autom_20ms();
     
     #ifndef NO_SERIALUS   
     

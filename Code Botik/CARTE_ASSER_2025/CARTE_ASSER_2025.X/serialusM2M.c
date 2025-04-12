@@ -1482,8 +1482,8 @@ void rej()
 {
     double x = 0.0;
     double y = 0.0;
-    int8_t s = 0;
-    double v = 0.0;
+    int8_t sens_marche = 0;
+    double pourcentage_vitesse = 0.0;
 
     char charX[5];
     char charY[5];
@@ -1503,23 +1503,24 @@ void rej()
     // Convert the substrings to double
     x = (double)atof(charX);
     y = (double)atof(charY);
-    v = (double)atof(charV);
-    s = (int8_t)atoi(charS);
+    pourcentage_vitesse = (double)atof(charV);
+    sens_marche = (int8_t)atoi(charS);
     
-    if (s==0){
-        s=-1; 
+    if (sens_marche==0){
+        sens_marche=-1; 
     }
                   
 
-    if (abs(x) > 3000 || abs(y) > 2000 || abs(v) > 200 || abs(s) != 1)
+    if (abs(x) > 3000 || abs(y) > 2000 || abs(pourcentage_vitesse) > 200 || abs(sens_marche) != 1)
     {
-        printf("data inchoerante x: %f,y: %f ,V %f , s%d \n ", (float)x, (float)y, (float)v, s);
+        printf("data inchoerante x: %f,y: %f ,V %f , s%d \n ", (float)x, (float)y, (float)pourcentage_vitesse, sens_marche);
     }
     else
     {
         init_clignotement();
-        
-        print_erreur_deplacementM2M(_rejoindre(x, y, s, v));
+         if (sens_marche == MARCHE_AVANT) _cibler(x, y, pourcentage_vitesse > 50 ? 50 : pourcentage_vitesse);
+    else _cibler_arriere(x, y, pourcentage_vitesse > 50 ? 50 : pourcentage_vitesse);
+        print_erreur_deplacementM2M(_rejoindre(x, y, sens_marche, pourcentage_vitesse));
     }
 }
 
