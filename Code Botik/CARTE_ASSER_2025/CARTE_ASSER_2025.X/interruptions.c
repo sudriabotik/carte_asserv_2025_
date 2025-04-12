@@ -96,7 +96,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _T3Interrupt(void)
     
     TIMER_20ms = DESACTIVE;
     
-    autom_20ms();
+    //autom_20ms();
     
     #ifndef NO_SERIALUS   
     
@@ -158,14 +158,9 @@ void __attribute__((__interrupt__, no_auto_psv)) _T4Interrupt(void)
         envoit_pwm(MOTEUR_GAUCHE, 0.);
         envoit_pwm(MOTEUR_X, 0.);
 
-        // Arrêt autom
-        eteindre_pompes();
-        eteindre_pompinettes();
-        stop_turbine();
-        bras_pv_droit_fermer();
-        bras_pv_gauche_fermer();
-        init_ax();
-
+       
+        
+        
         // Pour permettre l'envoit de commande AX12 
         // Depuis ici
         IPC7bits.U2TXIP	= 7;

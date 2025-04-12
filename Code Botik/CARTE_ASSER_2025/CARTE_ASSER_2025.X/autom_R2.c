@@ -1,4 +1,4 @@
- /******************************************************************************/
+/******************************************************************************/
 /************** Carte principale Robot 1 : DSPIC33FJ128MC804*******************/
 /******************************************************************************/
 /* Fichier 	: autom.c
@@ -21,6 +21,8 @@
 /***************************** FONCTIONS DIVERSES *****************************/
 /******************************************************************************/
 
+#ifdef PETIT_ROBOT
+
 void jack()
 {
     while(!SYS_JACK);
@@ -30,43 +32,13 @@ void jack()
 
 void allumer_pompes ()
 {
-    envoit_pwm(MOTEUR_X, 35);
+    envoit_pwm(MOTEUR_X, 100);
 }
 
-void eteindre_pompes ()
+void eteindre_pompe ()
 {
     envoit_pwm(MOTEUR_X, 0);
 }
-
-void allumer_pompinettes(){      
-    PIN_COMMANDE_POMPINETTES_TRIS2 = 0; //Make the LED pin an output
-    PIN_COMMANDE_POMPINETTES = 1;  
-}
-
-void eteindre_pompinettes(){
-    PIN_COMMANDE_POMPINETTES_TRIS2 = 0; //Make the LED pin an output
-    PIN_COMMANDE_POMPINETTES = 0;
-}
-void start_turbine(){      
-    PIN_COMMAND_TRIS1 = 0; //Make the LED pin an output
-    PIN_COMMAND = 1;  
-}
-
-void stop_turbine(){
-    PIN_COMMAND_TRIS1 = 0; //Make the LED pin an output
-    PIN_COMMAND = 0;
-}
-//Carte non patcher LMD18200 inutilisable
-//void allumer_pompinettes ()
-//{
-//    ALIM_MOTEUR_Y = ACTIVE;
-//    envoit_pwm (SENS_MOTEUR_Y, 0);
-//}
-
-//void eteindre_pompinettes ()
-//{
-//    envoit_pwm(SENS_MOTEUR_Y, 0);
-//}
 
 void son_evitement (uint8_t melodie)
 {/*
@@ -79,224 +51,70 @@ void son_evitement (uint8_t melodie)
 /********************************  FONCTION AX12  *****************************/
 /******************************************************************************/
 
+int pos_cherry[6] = {
+    CERISE_1,
+    CERISE_2,
+    CERISE_3,
+    CERISE_4,
+    CERISE_5,
+    CERISE_6
+};
 
-//-------------------------------------2024-------------------------------------
-//inti des AX12
-void init_ax() {
-    angle_AX12(AX_BRAS_Z,AX_BRAS_Z_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE);   
-    delay_ms(200);
-    angle_AX12(AX_BRAS_2EME_ROT,AX_BRAS_2EME_ROT_POS_INIT,VIT_AX_LENT,SANS_ATTENTE);
-    delay_ms(200);
-    angle_AX12(AX_BRAS_1ER_ROT,AX_BRAS_1ER_ROT_POS_INIT,VIT_AX_LENT,SANS_ATTENTE); 
-    delay_ms(200);
-    angle_AX12(AX_GRIFFE_GAUCHE_2,AX_GRIFFE_GAUCHE_2_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    angle_AX12(AX_GRIFFE_DROIT_2,AX_GRIFFE_DROIT_2_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE);	
-    delay_ms(300);
-    angle_AX12(AX_GRIFFE_GAUCHE_1,AX_GRIFFE_GAUCHE_1_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    angle_AX12(AX_GRIFFE_DROIT_1,AX_GRIFFE_DROIT_1_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    delay_ms(200);
-    angle_AX12(AX_GRIFFE_DROIT_2,AX_GRIFFE_DROIT_2_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    delay_ms(200);
-	angle_AX12(AX_PV_GAUCHE_1,AX_PV_GAUCHE_1_POS_INIT,VIT_AX_LENT,SANS_ATTENTE);
-    delay_ms(200);
-	angle_AX12(AX_PV_DROIT_1,AX_PV_DROIT_1_POS_INIT,VIT_AX_LENT,SANS_ATTENTE);
-    delay_ms(500);
-}
 
-void init_plantes() {
-    angle_AX12(AX_BRAS_Z,AX_BRAS_Z_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE);   
-    delay_ms(100);
-    angle_AX12(AX_BRAS_2EME_ROT,AX_BRAS_2EME_ROT_POS_INIT,VIT_AX_LENT,SANS_ATTENTE);
-    delay_ms(100);
-    angle_AX12(AX_BRAS_1ER_ROT,AX_BRAS_1ER_ROT_POS_INIT,VIT_AX_LENT,SANS_ATTENTE); 
-    delay_ms(100);
-}
 
-//fonction pour le systeme plantes:
-void aspi_plantes() {
-       //Activation des Pompinette
-    // allumage des pompes
-	allumer_pompes ();    
-    start_turbine();
-    // changement de position des ax12 pour preparer la dépose
-    angle_AX12(AX_BRAS_1ER_ROT,AX_BRAS_1ER_ROT_POS_INIT,VIT_AX_LENT,SANS_ATTENTE);
-	angle_AX12(AX_BRAS_Z,AX_BRAS_Z_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    angle_AX12(AX_BRAS_2EME_ROT,AX_BRAS_2EME_ROT_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE);
-	delay_ms(200);
-}
 
-void stock_plant(){
-       
-   //Activation des Pompinette
-	allumer_pompinettes ();
-   delay_ms(500);
-   // changement de position des ax12 pour le stockage
-        angle_AX12(AX_BRAS_1ER_ROT,400,1024,SANS_ATTENTE);
 
-    delay_ms(500);
-    angle_AX12(AX_BRAS_Z,AX_BRAS_Z_POS_STOCKAGE,VIT_AX_RAPIDE,SANS_ATTENTE);
-    angle_AX12(AX_BRAS_2EME_ROT,AX_BRAS_2EME_ROT_POS_STOCKAGE,VIT_AX_RAPIDE,SANS_ATTENTE);    
-     angle_AX12(AX_BRAS_1ER_ROT,AX_BRAS_1ER_ROT_POS_STOCKAGE,800,SANS_ATTENTE);
-	angle_AX12(AX_BRAS_2EME_ROT,AX_BRAS_2EME_ROT_POS_STOCKAGE,VIT_AX_RAPIDE,SANS_ATTENTE);    
-  
-    delay_ms(800);
-	
-    //Désactivation des Pompes
-	eteindre_pompes ();
-    delay_ms(200);  
-}  
-
-void destock_plant(){
-       
-   //Activation des Pompes
-	allumer_pompes ();
+void grab_cake(){
     
-   // changement de position des ax12 pour aller au stockage
-    angle_AX12(AX_BRAS_Z,AX_BRAS_Z_POS_STOCKAGE,VIT_AX_RAPIDE,SANS_ATTENTE);
-    angle_AX12(AX_BRAS_2EME_ROT,AX_BRAS_2EME_ROT_POS_STOCKAGE,VIT_AX_RAPIDE,SANS_ATTENTE);    
-    angle_AX12(AX_BRAS_1ER_ROT,AX_BRAS_1ER_ROT_POS_STOCKAGE,800,SANS_ATTENTE);
-	angle_AX12(AX_BRAS_2EME_ROT,AX_BRAS_2EME_ROT_POS_STOCKAGE,VIT_AX_RAPIDE,SANS_ATTENTE);    
-  
-   //Désactivation des Pompinettes
-	delay_ms(200);
-	eteindre_pompinettes ();
-	delay_ms(400);
-}  
-
-void depose_plant(){
-   
-   // changement de position des ax12 pour la dépose sur le plateau
-    angle_AX12(AX_BRAS_1ER_ROT,AX_BRAS_Z_POS_DEPOSE,VIT_AX_LENT,SANS_ATTENTE);
-	delay_ms(200);
-	angle_AX12(AX_BRAS_Z,AX_BRAS_1ER_ROT_POS_DEPOSE,VIT_AX_RAPIDE,SANS_ATTENTE);
-	delay_ms(200);
-    angle_AX12(AX_BRAS_2EME_ROT,AX_BRAS_2EME_ROT_POS_DEPOSE,VIT_AX_RAPIDE,SANS_ATTENTE);
-	
-	
-   //Désactivation des Pompes
-	eteindre_pompes ();
-    delay_ms(200);
-}
-
-// changement de position des ax12 après la dépose dans la jardinaire
-void fin_depose_plant() {
-    angle_AX12(AX_BRAS_2EME_ROT,AX_BRAS_2EME_ROT_POS_DEPOSE_FIN,VIT_AX_RAPIDE,SANS_ATTENTE);
-    delay_ms(200);
-	angle_AX12(AX_BRAS_Z,AX_BRAS_Z_POS_DEPOSE_FIN,VIT_AX_RAPIDE,SANS_ATTENTE);
-    delay_ms(200);
-    angle_AX12(AX_BRAS_1ER_ROT,AX_BRAS_Z_POS_INT_DEPOSE_JARDI,VIT_AX_LENT,SANS_ATTENTE);
+    angle_AX12(AX_DROIT, OUVERT_DROIT, 800, SANS_ATTENTE);
+    delay_ms(50);// we put this delay so the 2 pince doesn't over lap and break
+    angle_AX12(AX_GAUCHE, OUVERT_GAUCHE, 800, SANS_ATTENTE);
+    avancer_reculer(150,20);
+    angle_AX12(AX_DROIT, FERMER_DROIT, 800, SANS_ATTENTE);
+    angle_AX12(AX_GAUCHE, FERMER_GAUCHE, 800, SANS_ATTENTE);
     delay_ms(500);
+    
 }
-
-void depose_jardiniere_plant(){
-   
-   // changement de position des ax12 pour la dépose dans la jardinaire
-    angle_AX12(AX_BRAS_1ER_ROT,AX_BRAS_Z_POS_DEPOSE_JARDI,VIT_AX_LENT,SANS_ATTENTE);
-	delay_ms(200);
-	angle_AX12(AX_BRAS_Z,AX_BRAS_1ER_ROT_POS_DEPOSE_JARDI,VIT_AX_RAPIDE,SANS_ATTENTE);
-	delay_ms(200);
-    angle_AX12(AX_BRAS_2EME_ROT,AX_BRAS_2EME_ROT_POS_DEPOSE_JARDI,VIT_AX_RAPIDE,SANS_ATTENTE);
-	
-	
-   //Désactivation des Pompes
-	eteindre_pompes ();
-    delay_ms(200);
-}
-
-
-void position_intermediaire_depose_plateau(){
-    // changement de position des ax12 pour preparer la dépose
-    angle_AX12(AX_BRAS_1ER_ROT,AX_BRAS_Z_POS_INT_DEPOSE_PLATEAU,VIT_AX_LENT,SANS_ATTENTE);
-	delay_ms(200);
-	angle_AX12(AX_BRAS_Z,AX_BRAS_1ER_ROT_POS_INT_DEPOSE_PLATEAU,VIT_AX_RAPIDE,SANS_ATTENTE);
-	delay_ms(200);
-    angle_AX12(AX_BRAS_2EME_ROT,AX_BRAS_2EME_ROT_POS_INT_DEPOSE_PLATEAU,VIT_AX_RAPIDE,SANS_ATTENTE);
+void release_cake(){
+    
+    drop_cherry();
+    angle_AX12(AX_DROIT, OUVERT_DROIT, 800, SANS_ATTENTE);
+    angle_AX12(AX_GAUCHE, OUVERT_GAUCHE, 800, SANS_ATTENTE);
+    avancer_reculer(-150,20);
+    angle_AX12(AX_GAUCHE, FERMER_GAUCHE, 800, SANS_ATTENTE);
+    delay_ms(50);
+    angle_AX12(AX_DROIT, FERMER_DROIT, 800, SANS_ATTENTE);
     delay_ms(500);
-}
-
-void position_intermediaire_depose_jardi(){
-    // changement de position des ax12 pour preparer la dépose
-    angle_AX12(AX_BRAS_1ER_ROT,AX_BRAS_Z_POS_INT_DEPOSE_JARDI,VIT_AX_LENT,SANS_ATTENTE);
-	delay_ms(200);
-	angle_AX12(AX_BRAS_Z,AX_BRAS_1ER_ROT_POS_INT_DEPOSE_JARDI,VIT_AX_RAPIDE,SANS_ATTENTE);
-	delay_ms(200);
-    angle_AX12(AX_BRAS_2EME_ROT,AX_BRAS_2EME_ROT_POS_INT_DEPOSE_JARDI,VIT_AX_RAPIDE,SANS_ATTENTE);
-    delay_ms(500);  
-}
-
-//fonction pour les griffes
-void init_griffes() {
-   // changement de position des ax12 pour le stockage
-	angle_AX12(AX_GRIFFE_GAUCHE_2,AX_GRIFFE_GAUCHE_2_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE);
-	angle_AX12(AX_GRIFFE_GAUCHE_2,AX_GRIFFE_GAUCHE_2_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    delay_ms(10);
-    angle_AX12(AX_GRIFFE_DROIT_2,AX_GRIFFE_DROIT_2_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    angle_AX12(AX_GRIFFE_DROIT_2,AX_GRIFFE_DROIT_2_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    delay_ms(300);
-    angle_AX12(AX_GRIFFE_GAUCHE_1,AX_GRIFFE_GAUCHE_1_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    angle_AX12(AX_GRIFFE_GAUCHE_1,AX_GRIFFE_GAUCHE_1_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    delay_ms(10);
-    angle_AX12(AX_GRIFFE_DROIT_1,AX_GRIFFE_DROIT_1_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    angle_AX12(AX_GRIFFE_DROIT_1,AX_GRIFFE_DROIT_1_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    delay_ms(50);
-}
-
-void griffes_ouvertes() {
-   // changement de position des ax12 pour le stockage
-    angle_AX12(AX_GRIFFE_GAUCHE_1,AX_GRIFFE_GAUCHE_1_OUVERT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    angle_AX12(AX_GRIFFE_GAUCHE_1,AX_GRIFFE_GAUCHE_1_OUVERT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    delay_ms(10);
-    angle_AX12(AX_GRIFFE_DROIT_1,AX_GRIFFE_DROIT_1_OUVERT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    angle_AX12(AX_GRIFFE_DROIT_1,AX_GRIFFE_DROIT_1_OUVERT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    delay_ms(100);
-    angle_AX12(AX_GRIFFE_GAUCHE_2,AX_GRIFFE_GAUCHE_2_OUVERT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    angle_AX12(AX_GRIFFE_GAUCHE_2,AX_GRIFFE_GAUCHE_2_OUVERT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    delay_ms(10);
-    angle_AX12(AX_GRIFFE_DROIT_2,AX_GRIFFE_DROIT_2_OUVERT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    angle_AX12(AX_GRIFFE_DROIT_2,AX_GRIFFE_DROIT_2_OUVERT,VIT_AX_RAPIDE,SANS_ATTENTE);
-    delay_ms(50);
+    
 }
 
 
-void griffes_stockage() {
-   // changement de position des ax12 pour le stockage
-    angle_AX12(AX_GRIFFE_GAUCHE_1,AX_GRIFFE_GAUCHE_1_POS_STOCKAGE_2,VIT_AX_RAPIDE,SANS_ATTENTE);
-    angle_AX12(AX_GRIFFE_GAUCHE_1,AX_GRIFFE_GAUCHE_1_POS_STOCKAGE_2,VIT_AX_RAPIDE,SANS_ATTENTE);
-    delay_ms(10);
-    angle_AX12(AX_GRIFFE_DROIT_1,AX_GRIFFE_DROIT_1_POS_STOCKAGE_2,VIT_AX_RAPIDE,SANS_ATTENTE);
-    angle_AX12(AX_GRIFFE_DROIT_1,AX_GRIFFE_DROIT_1_POS_STOCKAGE_2,VIT_AX_RAPIDE,SANS_ATTENTE);
-    delay_ms(50);
-	angle_AX12(AX_GRIFFE_GAUCHE_2,AX_GRIFFE_GAUCHE_2_POS_STOCKAGE_2,VIT_AX_RAPIDE,SANS_ATTENTE);
-    angle_AX12(AX_GRIFFE_GAUCHE_2,AX_GRIFFE_GAUCHE_2_POS_STOCKAGE_2,VIT_AX_RAPIDE,SANS_ATTENTE);
-    delay_ms(10);
-    angle_AX12(AX_GRIFFE_DROIT_2,AX_GRIFFE_DROIT_2_POS_STOCKAGE_2,VIT_AX_RAPIDE,SANS_ATTENTE);
-    angle_AX12(AX_GRIFFE_DROIT_2,AX_GRIFFE_DROIT_2_POS_STOCKAGE_2,VIT_AX_RAPIDE,SANS_ATTENTE);
-    delay_ms(50);
+int counter=0;
+bool refuel= false; 
+
+void drop_cherry(){
+    
+    if( counter>2 && !refuel){
+        angle_AX12(AX_CERISE, POS_REFUEL, 500, SANS_ATTENTE);
+        refuel=true;
+    }
+    else{
+        angle_AX12(AX_CERISE, pos_cherry[counter], 100, SANS_ATTENTE);
+        counter++;
+    }
 }
 
-//fonction pour l'ouverture et la fermeture des bras pour les PV
-void bras_pv_gauche_fermer(){
-    angle_AX12(AX_PV_GAUCHE_1,AX_PV_GAUCHE_1_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE); 
-}
-
-void bras_pv_gauche_ouvert(){
-	angle_AX12(AX_PV_GAUCHE_1,AX_PV_GAUCHE_1_OUVERT,VIT_AX_RAPIDE,SANS_ATTENTE);
-}
-
-void bras_pv_droit_fermer(){
-    angle_AX12(AX_PV_DROIT_1,AX_PV_DROIT_1_POS_INIT,VIT_AX_RAPIDE,SANS_ATTENTE); 
-}
-
-void bras_pv_droit_ouvert(){
-	angle_AX12(AX_PV_DROIT_1,AX_PV_DROIT_1_OUVERT,VIT_AX_RAPIDE,SANS_ATTENTE);
-}
 
 
 /******************************************************************************/
 /******************************** FONCTION BOUCLE *****************************/
 /******************************************************************************/
+
+
 void autom_20ms (void)
 {
+
+
     //fonction qui definit les actions
     switch (FLAG_ACTION)
     {
@@ -311,3 +129,5 @@ void autom_20ms (void)
         // Funny action
     }
 }    
+
+#endif

@@ -105,7 +105,7 @@ void action_evitement (void)
 
 }
 
-uint8_t cibler (double x, double y, double pourcentage_vitesse)
+void cibler (double x, double y, double pourcentage_vitesse)
 {
     
     uint8_t erreur = _cibler (x, y, pourcentage_vitesse);
@@ -118,7 +118,7 @@ uint8_t cibler (double x, double y, double pourcentage_vitesse)
         else if (EVITEMENT_ADV.mode == EVITEMENT_NORMAL)
         {
             //action en cas d'évitements
-            erreur = cibler(x,y,pourcentage_vitesse);
+           cibler(x,y,pourcentage_vitesse);
         }
     }
     if (erreur == BLOCAGE)
@@ -126,10 +126,10 @@ uint8_t cibler (double x, double y, double pourcentage_vitesse)
         //Actions a faire en cas de blocage
     }
 
-    return erreur;
+    //return erreur;
 }
 
-uint8_t orienter (double angle, double pourcentage_vitesse)
+void orienter (double angle, double pourcentage_vitesse)
 {
     uint8_t erreur = _orienter (angle, pourcentage_vitesse);
     if ( erreur == EVITEMENT)
@@ -141,7 +141,7 @@ uint8_t orienter (double angle, double pourcentage_vitesse)
         else if (EVITEMENT_ADV.mode == EVITEMENT_NORMAL)
         {
             //action en cas d'évitements
-            erreur = orienter ( angle, pourcentage_vitesse);
+            orienter ( angle, pourcentage_vitesse);
         }
     }
     else if (erreur == BLOCAGE)
@@ -149,10 +149,10 @@ uint8_t orienter (double angle, double pourcentage_vitesse)
         //Actions a faire en cas de blocage
     }
 
-    return erreur;
+    //return erreur;
 }
 
-uint8_t rejoindre (double x, double y, int8_t sens_marche, double pourcentage_vitesse)
+void rejoindre (double x, double y, int8_t sens_marche, double pourcentage_vitesse)
 {
     // Commencer par orienter avant de rejoindre
     if (sens_marche == MARCHE_AVANT) _cibler(x, y, pourcentage_vitesse > 50 ? 50 : pourcentage_vitesse);
@@ -176,10 +176,10 @@ uint8_t rejoindre (double x, double y, int8_t sens_marche, double pourcentage_vi
         //Actions a faire en cas de blocage
     }
 
-    return erreur;   
+    //return erreur;   
 }
 
-uint8_t avancer_reculer (double distance, double pourcentage_vitesse)
+void avancer_reculer (double distance, double pourcentage_vitesse)
 {
     uint8_t erreur = _avancer_reculer (distance, pourcentage_vitesse);
     if ( erreur == EVITEMENT)
@@ -199,10 +199,10 @@ uint8_t avancer_reculer (double distance, double pourcentage_vitesse)
         //Actions a faire en cas de blocage
     }
     
-    return erreur;
+    //return erreur;
 }
 
-uint8_t passe_part (double x, double y, int8_t sens_marche, double pourcentage_vitesse, char last)
+void passe_part (double x, double y, int8_t sens_marche, double pourcentage_vitesse, char last)
 {
     pourcentage_vitesse = (pourcentage_vitesse > max_vitesse) ? max_vitesse : pourcentage_vitesse;
 
@@ -223,14 +223,14 @@ uint8_t passe_part (double x, double y, int8_t sens_marche, double pourcentage_v
         //Actions a faire en cas de blocage
     }
 
-    return erreur;
+    //return erreur;
 }
 
 /******************************************************************************/
 /******************* FONCTIONS ASSERV BAS NIVEAU (calage) *********************/
 /******************************************************************************/
 
-uint8_t calage (double distance, double pourcentage_vitesse)
+void calage (double distance, double pourcentage_vitesse)
 {
     uint8_t erreur = _calage (distance, pourcentage_vitesse);
     if ( erreur == EVITEMENT)
@@ -242,10 +242,10 @@ uint8_t calage (double distance, double pourcentage_vitesse)
         // Mode de sortie normal pour un calage
     }
 
-    return erreur;
+    //return erreur;
 }
 
-uint8_t calage_X (double x, double teta, int8_t sens_marche, double pourcentage_vitesse)
+void calage_X (double x, double teta, int8_t sens_marche, double pourcentage_vitesse)
 {
     // calage sur 1m pour limiter la vitesse
     uint8_t erreur = _calage (sens_marche * 1000, pourcentage_vitesse);
@@ -260,10 +260,10 @@ uint8_t calage_X (double x, double teta, int8_t sens_marche, double pourcentage_
     else //si pas encore calé on recommence
         calage_X (x, teta, sens_marche, pourcentage_vitesse);
 
-    return erreur;
+    //return erreur;
 }
 
-uint8_t calage_Y (double y, double teta, int8_t sens_marche, double pourcentage_vitesse)
+void calage_Y (double y, double teta, int8_t sens_marche, double pourcentage_vitesse)
 {
     // calage sur 1m pour limiter la vitesse
     uint8_t erreur = _calage (sens_marche * 1000, pourcentage_vitesse);
@@ -278,10 +278,10 @@ uint8_t calage_Y (double y, double teta, int8_t sens_marche, double pourcentage_
     else //si pas encore calé on recommence
         calage_Y (y, teta, sens_marche, pourcentage_vitesse);
 
-    return erreur;
+    //return erreur;
 }
 
-uint8_t calage_teta (double teta, int8_t sens_marche, double pourcentage_vitesse)
+void calage_teta (double teta, int8_t sens_marche, double pourcentage_vitesse)
 {
     // calage sur 1m pour limiter la vitesse
     uint8_t erreur = _calage (sens_marche * 1000, pourcentage_vitesse);
@@ -296,7 +296,7 @@ uint8_t calage_teta (double teta, int8_t sens_marche, double pourcentage_vitesse
     else //si pas encore calé on recommence
         calage_teta (teta, sens_marche, pourcentage_vitesse);
 
-    return erreur;
+   // return erreur;
 }
 
 void faire_des_tours (int nb_tour)

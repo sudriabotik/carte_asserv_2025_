@@ -84,7 +84,7 @@ void serialusM2M_process()
                         print_pos();
                         break;
                     case '1': // set rob
-                        if ((taille_buffer) != 15)
+                        if ((taille_buffer) != 16)
                         {
                             printf("erreur taille char %d \n", taille_buffer);
                             break;
@@ -247,7 +247,7 @@ void serialusM2M_process()
                     }
                     break;
 
-                case '3': // asserv
+                case '3': // asserve
                     id1 = serialusM2M.buffer[1];
                     switch (id1)
                     {
@@ -964,21 +964,25 @@ void serialusM2M_process()
                             break;
                     }
                     break;
-                case '5':
-                    //printf("you are here \n");
-                        id1 = serialusM2M.buffer[1];
-                    switch (id1)
-                    { case '0':
-                        get_couleur();
-                        break;
-                        case '1':
-                        set_couleur();
-                        break;
-
-                        default  :
-                            printf ("Mauvais id1 couleur /n");
+                    case '5':
+                        //printf("you are here \n");
+                         id1 = serialusM2M.buffer[1];
+                        switch (id1)
+                        { case '0':
+                            get_couleur();
                             break;
-                            }
+                         case '1':
+                            set_couleur();
+                            break;
+                                
+                            
+                            default  :
+                                printf ("Mauvais id1 couleur /n");
+                                break;
+                                }
+                                
+                                      
+                                
                         
                         break; //break case 5 
                     
@@ -987,7 +991,7 @@ void serialusM2M_process()
                          id1 = serialusM2M.buffer[1];
                         switch (id1)
                         { case '0':
-                                Evitement_on_off();
+                            Evitement_on_off();
                             break;
                             
                          case '1':
@@ -995,7 +999,7 @@ void serialusM2M_process()
                             break;
                         
                          case '2':
-                             Check_evitement();
+                             Check_evitment();
                              break;
                                 
                             case '9':
@@ -1011,142 +1015,6 @@ void serialusM2M_process()
                                 
                         
                         break; //break 6
-                case '7': // Strategie
-                    id1= serialusM2M.buffer[1];
-                    switch (id1)
-                    {
-                    case '0':
-                        if ((taille_buffer) != 5)
-                        {
-                            printf("[Strategie] Code %d%d - Erreur taille buffer %d \n", id0, id1, taille_buffer);
-                            break;
-                        }
-                        else if (!sontdesdigits(serialusM2M.buffer))
-                        {
-                            printf("erreur Sont des digits \n");
-                            break;
-                        }
-                        recup_plante();
-                        break;
-
-                    case '1':
-                        if ((taille_buffer) != 17)
-                        {
-                            printf("[Strategie] Code %d%d - Erreur taille buffer %d \n", id0, id1, taille_buffer);
-                            break;
-                        }
-                        else if (!sontdesdigits(serialusM2M.buffer))
-                        {
-                            printf("erreur Sont des digits \n");
-                            break;
-                        }
-                        recup_plante_alt();
-                        break;
-
-                    case '2': 
-                        if ((taille_buffer) != 4)
-                        {
-                            printf("[Strategie] Code %d%d - Erreur taille buffer %d \n", id0, id1, taille_buffer);
-                            break;
-                        }
-                        else if (!sontdesdigits(serialusM2M.buffer))
-                        {
-                            printf("erreur Sont des digits \n");
-                            break;
-                        }
-                        depose_zone_depart();
-                        break;
-
-                    case '3': 
-                        if ((taille_buffer) != 4)
-                        {
-                            printf("[Strategie] Code %d%d - Erreur taille buffer %d \n", id0, id1, taille_buffer);
-                            break;
-                        }
-                        else if (!sontdesdigits(serialusM2M.buffer))
-                        {
-                            printf("erreur Sont des digits \n");
-                            break;
-                        }
-                        depose_zone_reserv();
-                        break;
-
-                    case '4': 
-                        if ((taille_buffer) != 4)
-                        {
-                            printf("[Strategie] Code %d%d - Erreur taille buffer %d \n", id0, id1, taille_buffer);
-                            break;
-                        }
-                        else if (!sontdesdigits(serialusM2M.buffer))
-                        {
-                            printf("erreur Sont des digits \n");
-                            break;
-                        }
-                        depose_zone_reserv_alt();
-                        break;
-
-                    case '5':
-                        if ((taille_buffer) != 5)
-                        {
-                            printf("[Strategie] Code %d%d - Erreur taille buffer %d \n", id0, id1, taille_buffer);
-                            break;
-                        }
-                        else if (!sontdesdigits(serialusM2M.buffer))
-                        {
-                            printf("erreur Sont des digits \n");
-                            break;
-                        }
-                        depose_jardiniere();
-                        break;
-
-                    case '6':
-                        if ((taille_buffer) != 4)
-                        {
-                            printf("[Strategie] Code %d%d - Erreur taille buffer %d \n", id0, id1, taille_buffer);
-                            break;
-                        }
-                        else if (!sontdesdigits(serialusM2M.buffer))
-                        {
-                            printf("erreur Sont des digits \n");
-                            break;
-                        }
-                        activ_panneaux_solaires();
-                        break;
-
-                    case '7':
-                        if ((taille_buffer) != 4)
-                        {
-                            printf("[Strategie] Code %d%d - Erreur taille buffer %d \n", id0, id1, taille_buffer);
-                            break;
-                        }
-                        else if (!sontdesdigits(serialusM2M.buffer))
-                        {
-                            printf("erreur Sont des digits \n");
-                            break;
-                        }
-                        zone_recharge();
-                        break;
-
-                    case '8':
-                        if ((taille_buffer) != 4)
-                        {
-                            printf("[Strategie] Code %d%d - Erreur taille buffer %d \n", id0, id1, taille_buffer);
-                            break;
-                        }
-                        else if (!sontdesdigits(serialusM2M.buffer))
-                        {
-                            printf("erreur Sont des digits \n");
-                            break;
-                        }
-                        calage_dep();
-                        break;
-
-                    default:
-                        printf("[Strategie] Code %d%d - Code non reconnu\n", id0, id1);
-                        break;
-                    }
-                    break;
-
                                
                             
                 default:
@@ -1218,6 +1086,8 @@ void calageX()
         print_pos();
     }
 }
+
+ 
 
 void calageY()
 {
@@ -1306,7 +1176,7 @@ void set_couleur(){
 
 void calageALL()
 {
-    calage_depart(STRAT1);
+    
     print_pos();
     // print_pos();
 }
@@ -1523,6 +1393,7 @@ void rej()
         print_erreur_deplacementM2M(_rejoindre(x, y, sens_marche, pourcentage_vitesse));
     }
 }
+
 
 void passe_par()
 {
@@ -2031,7 +1902,7 @@ void reset_ENTRAXE_MM()
 {
     ENTRAXE_MM = _ENTRAXE_MM;
     calcul_var_odom_asserv();
-    printf("entraxe mm : %f  , ENTRAXE_TICKS= %f \n", ENTRAXE_MM, ENTRAXE_TICKS);
+    printf(" %f \n , ENTRAXE_TICKS= %f", ENTRAXE_MM, ENTRAXE_TICKS);
 }
 
 void reset_DIAMETRE_ROUE_CODEUSE()
@@ -2142,7 +2013,6 @@ bool sontdesdigits(const char *str)
 
 void print_erreur_deplacementM2M(_enum_erreur_asserv erreur)
 {
-    
     serialusM2M.clignotement_en_cours = false;
     switch (erreur)
     {
@@ -2160,7 +2030,7 @@ void print_erreur_deplacementM2M(_enum_erreur_asserv erreur)
 
 void init_clignotement()
 {
-    printf("clignotement\r");
+   // printf("clignotement\r");
     serialusM2M.clignotement_en_cours = true;
 }
 
@@ -2183,7 +2053,6 @@ void calcul_var_odom_asserv()
 
     ORIENTATION_CONSIGNE_PAS = (ORIENTATION_CONSIGNE_DEG * Pi / 180. * (ENTRAXE_TICKS / 2.));
 }
-
 void DEBUG_ON(){
 #ifndef DEBUG_ACTIF 
     #define DEBUG_ACTIF 
@@ -2385,7 +2254,7 @@ void AX_get_pos(){
             if (Ping(id) == REPONSE_OK)
             {
                 tab[index++] = id;
-            }
+            }   
         }
 
         
@@ -2499,53 +2368,50 @@ int16_t check_id_ax12_m2m(int16_t id)
         print_abort("4\n ");
     
     return id;
-}
+}        
+   
 
-void Check_evitement() {
+
+void Check_evitment(){
     int8_t sens=0;
     char chars[2];
     strncpy(chars, serialusM2M.buffer + 2, 1);
     chars[1]='\0';
     sens= (int8_t) atoi(chars);
-    if (sens == 0) { // Arrière
+    if (sens==0){
         
         int8_t gauche=0;
         int8_t droite=0;
         int8_t centre=0;
-        int robot_evit = 0;
         
-        robot_evit = EVITEMENT_ADV.sens == MARCHE_ARRIERE && check_evitement_arriere();
-        
-        if ( ((EVITEMENT_ADV.cote & EV_CENTRE) != 0) && (CAPT_ADV_ARRIERE_C == ETAT_ADV_ARRIERE_C))
-            centre = 1;
+        if ( ((EVITEMENT_ADV.cote & EV_CENTRE) != 0) && (CAPT_ADV_ARRIERE_C == ETAT_ADV_ARRIERE_C) )
+        gauche = 1;
         else if ( ((EVITEMENT_ADV.cote & EV_GAUCHE) != 0) && (CAPT_ADV_ARRIERE_G == ETAT_ADV_ARRIERE_G))
-            gauche = 1;
+        droite = 1;
         else if ( ((EVITEMENT_ADV.cote & EV_DROIT) != 0) && (CAPT_ADV_ARRIERE_D == ETAT_ADV_ARRIERE_D))
-            droite = 1;
+        centre = 1;
         
-        printf("Evitement arriere = %d / %d / %d / robot = %d\n ", gauche , centre, droite, robot_evit);
+        printf("%d_%d_%d \n" ,gauche,centre,droite);
+    }
+    if (sens==1){
+        int8_t gauche=0;
+        int8_t droite=0;
+        int8_t centre=0;
+        
+        if ( ((EVITEMENT_ADV.cote & EV_CENTRE) != 0) && (CAPT_ADV_AVANT_C == ETAT_ADV_AVANT_C) )
+        gauche = 1;
+        else if ( ((EVITEMENT_ADV.cote & EV_GAUCHE) != 0) && (CAPT_ADV_AVANT_G == ETAT_ADV_AVANT_G))
+        droite = 1;
+        else if ( ((EVITEMENT_ADV.cote & EV_DROIT) != 0) && (CAPT_ADV_AVANT_D == ETAT_ADV_AVANT_D))
+        centre = 1;
+        
+        printf("%d_%d_%d \n ",gauche,centre,droite);
+        
+    }
+            
     }
 
-    if (sens == 1) { // Avant
-        int8_t gauche = 0;
-        int8_t droite = 0;
-        int8_t centre = 0;
-        int robot_evit = 0;
-        
-        robot_evit = EVITEMENT_ADV.sens == MARCHE_AVANT && check_evitement_avant();
-        
-        if ( ((EVITEMENT_ADV.cote & EV_CENTRE) != 0) && (CAPT_ADV_AVANT_C == ETAT_ADV_AVANT_C))
-            centre = 1;
-        if ( ((EVITEMENT_ADV.cote & EV_GAUCHE) != 0) && (CAPT_ADV_AVANT_G == ETAT_ADV_AVANT_G))
-            gauche = 1;
-        if ( ((EVITEMENT_ADV.cote & EV_DROIT) != 0) && (CAPT_ADV_AVANT_D == ETAT_ADV_AVANT_D))
-            droite = 1;
-        
-        printf("Evitement avant = %d / %d / %d / robot = %d\n ", gauche , centre, droite, robot_evit);
-    }
-}
-
-void Evitement_on_off() {
+void Evitement_on_off(){
     int8_t state=0;
     char chars[2];
     strncpy(chars, serialusM2M.buffer + 2, 1);
@@ -2561,7 +2427,7 @@ void Evitement_on_off() {
     }            
 }
 
-void set_evitment() {
+void set_evitment(){
     int8_t state=0;
     char chars[2];
     strncpy(chars, serialusM2M.buffer + 2, 1);
@@ -2577,172 +2443,8 @@ void set_evitment() {
     }            
 }
 
-void start_match() {
+void start_match(){
      CPT_TEMPS_MATCH.actif = ON;
-     printf("here we go again \n");
+     printf(" \n"); // start match
 }
 
-void recup_plante() {
-    uint8_t strat = 0;
-    uint8_t id = 0;
-    char char_val[2];
-
-    strncpy(char_val, serialusM2M.buffer + 2, 1);
-    strat = (uint8_t) atoi(char_val);
-
-    strncpy(char_val, serialusM2M.buffer + 3, 1);
-    id = (uint8_t) atoi(char_val);
-
-         if ((id == 1) && (strat == 1)) recup_plante4_ou_1(false, strat);
-    else if ((id == 2) && (strat == 1)) recup_plante5_ou_2(false, strat);
-    else if  (id == 3)                  recup_plante3     (false, true, strat);
-    else if ((id == 4) && (strat == 0)) recup_plante4_ou_1(false, strat);
-    else if ((id == 5) && (strat == 0)) recup_plante5_ou_2(false, strat);
-    else printf("[%s] Bad ID %d for strat %d\n", __func__, id, strat);
-}
-
-void recup_plante_alt() {
-    uint8_t strat = 0;
-    uint8_t id = 0;
-    double x_target = 0.0;
-    double y_target = 0.0;
-    double x_evitement = 0.0;
-    char char_val[2];
-    char char_val5[5];
-
-    strncpy(char_val, serialusM2M.buffer + 2, 1);
-    strat = (uint8_t) atoi(char_val);
-
-    strncpy(char_val, serialusM2M.buffer + 3, 1);
-    id = (uint8_t) atoi(char_val);
-
-    strncpy(char_val5, serialusM2M.buffer + 4, 4);
-    char_val5[4] = '\0';
-    x_target = (double) atof(char_val5);
-
-    strncpy(char_val5, serialusM2M.buffer + 8, 4);
-    char_val5[4] = '\0';
-    y_target = (double) atof(char_val5);
-
-    strncpy(char_val5, serialusM2M.buffer + 12, 4);
-    char_val5[4] = '\0';
-    x_evitement = (double) atof(char_val5);
-
-    if ((x_target > 3000    && x_target < 0   ) ||
-        (y_target > 3000    && y_target < 0   ) ||
-        (x_evitement > 3000 && x_evitement < 0)) {
-        printf("[%s] Incoherent data: x_target = %f, y_target = %f, x_evitement = %f\n", __func__, x_target, y_target, x_evitement);
-        return;
-    }
-
-         if ((id == 2) && (strat == 1)) recup_plante5_ou_2_alt(true, strat, x_target, y_target, x_target);
-    else if ((id == 5) && (strat == 0)) recup_plante5_ou_2_alt(true, strat, x_target, y_target, x_target);
-    else printf("[%s] Bad ID %d for strat %d\n", __func__, id, strat);
-
-}
-
-void depose_zone_depart() {
-    uint8_t strat = 0;
-    char char_val[2];
-
-    strncpy(char_val, serialusM2M.buffer + 2, 1);
-    strat = (uint8_t) atoi(char_val);
-
-    if (strat == 0) depose_zone_depart_strat1(true);
-    else if (strat == 1) depose_zone_depart_strat2(true);
-    else printf("[%s] Bad Strat %d\n", __func__, strat);
-}
-
-void depose_zone_reserv() {
-    uint8_t strat = 0;
-    char char_val[2];
-
-    strncpy(char_val, serialusM2M.buffer + 2, 1);
-    strat = (uint8_t) atoi(char_val);
-
-    if ((strat != 0) && (strat != 1)) {
-        printf("[%s] Incoherent data: strat = %d\n", __func__, strat);
-        return;
-    }
-
-    depose_zone_reservee(true, strat);
-}
-
-void depose_zone_reserv_alt() {
-    uint8_t strat = 0;
-    char char_val[2];
-
-    strncpy(char_val, serialusM2M.buffer + 2, 1);
-    strat = (uint8_t) atoi(char_val);
-
-    if ((strat != 0) && (strat != 1)) {
-        printf("[%s] Incoherent data: strat = %d\n", __func__, strat);
-        return;
-    }
-
-    depose_zone_reservee_alt(true, strat);
-}
-
-void depose_jardiniere() {
-    uint8_t strat = 0;
-    uint8_t id = 0;
-    char char_val[2];
-
-    strncpy(char_val, serialusM2M.buffer + 2, 1);
-    strat = (uint8_t) atoi(char_val);
-
-    strncpy(char_val, serialusM2M.buffer + 3, 1);
-    id = (uint8_t) atoi(char_val);
-
-    if ((strat != 0) && (strat != 1)) {
-        printf("[%s] Incoherent data: strat = %d\n", __func__, strat);
-        return;
-    }
-         if (id == 0) depose_jardiniere1(true, strat);
-    else if (id == 1) depose_jardiniere2(true, strat);
-    else if (id == 2) depose_jardiniere3(true, strat);
-    else printf("[%s] Bad ID %d for strat %d\n", __func__, id, strat);
-}
-
-void activ_panneaux_solaires() {
-    uint8_t strat = 0;
-    char char_val[2];
-
-    strncpy(char_val, serialusM2M.buffer + 2, 1);
-    strat = (uint8_t) atoi(char_val);
-
-
-    if ((strat != 0) && (strat != 1)) {
-        printf("[%s] Incoherent data: strat = %d\n", __func__, strat);
-        return;
-    }
-    activation_panneaux_solaires(false, strat);
-}
-
-void zone_recharge() {
-    uint8_t strat = 0;
-    char char_val[2];
-
-    strncpy(char_val, serialusM2M.buffer + 2, 1);
-    strat = (uint8_t) atoi(char_val);
-
-    if ((strat != 0) && (strat != 1)) {
-        printf("[%s] Incoherent data: strat = %d\n", __func__, strat);
-        return;
-    }
-    retour_zone_recharge(true, strat);
-}
-
-void calage_dep() {
-    uint8_t strat = 0;
-    char char_val[2];
-
-    strncpy(char_val, serialusM2M.buffer + 2, 1);
-    strat = (uint8_t) atoi(char_val);
-
-    if ((strat != 0) && (strat != 1)) {
-        printf("[%s] Incoherent data: strat = %d\n", __func__, strat);
-        return;
-    }
-    calage_depart(strat);
-}

@@ -85,7 +85,6 @@ int main(int argc, char** argv)
     /*************************** INIT ROBOT ***********************************/
     /**************************************************************************/
     init_system();
-    init_ax();
     TIMER_200ms = ACTIVE;
   
     CPT_TEMPS_MATCH.actif = OFF;

@@ -22,6 +22,7 @@ typedef struct {
     uint8_t head;
     uint8_t tail;
     bool carriageReturnReceived;
+    
 } SerialusM2M;
 
 extern SerialusM2M serialusM2M;
@@ -117,22 +118,10 @@ void print_erreur_ax12();
 void get_couleur();
 void set_couleur();
 
-void Check_evitement();
+void Check_evitment();
 void Evitement_on_off();
 void set_evitment();
 void start_match();
-
-
-void recup_plante();
-void recup_plante_alt();
-void depose_zone_depart();
-void depose_zone_reserv();
-void depose_zone_reserv_alt();
-void depose_jardiniere();
-void activ_panneaux_solaires();
-void zone_recharge();
-void calage_dep();
-
 // Add other function declarations...
 
 

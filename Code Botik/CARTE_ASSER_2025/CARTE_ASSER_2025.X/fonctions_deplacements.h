@@ -103,7 +103,7 @@ void action_evitement (void);
  * @return  renvoit le code erreur de l'asservissement (0 = déplacement normal, 1 = blocage, 2 = évitement)
 
  */
-uint8_t cibler (double x, double y, double pourcentage_vitesse);
+void cibler (double x, double y, double pourcentage_vitesse);
 
 
 /**
@@ -112,7 +112,7 @@ uint8_t cibler (double x, double y, double pourcentage_vitesse);
  * @param pourcentage_vitesse : Vitesse désiré de 0 à 100%
  * @return  renvoit le code erreur de l'asservissement (0 = déplacement normal, 1 = blocage, 2 = évitement)
  */
-uint8_t orienter (double angle, double pourcentage_vitesse);
+void orienter (double angle, double pourcentage_vitesse);
 
 
 /**
@@ -123,7 +123,7 @@ uint8_t orienter (double angle, double pourcentage_vitesse);
  * @param pourcentage_vitesse : Vitesse désirée de 0 à 100 %
  * @return  renvoit le code erreur de l'asservissement (0 = déplacement normal, 1 = blocage, 2 = évitement)
  */
-uint8_t rejoindre (double x, double y, int8_t sens_marche, double pourcentage_vitesse);
+void rejoindre (double x, double y, int8_t sens_marche, double pourcentage_vitesse);
 
 
 /**
@@ -132,7 +132,7 @@ uint8_t rejoindre (double x, double y, int8_t sens_marche, double pourcentage_vi
  * @param pourcentage_vitesse : Vitesse désirée de 0 à 100%
  * @return  renvoit le code erreur de l'asservissement (0 = déplacement normal, 1 = blocage, 2 = évitement)
  */
-uint8_t avancer_reculer (double distance, double pourcentage_vitesse);
+void avancer_reculer (double distance, double pourcentage_vitesse);
 
 
 /**
@@ -149,7 +149,7 @@ uint8_t avancer_reculer (double distance, double pourcentage_vitesse);
  * @param last : DEBUT_TRAJECTOIRE, MILIEU_TRAJECTOIRE, FIN_TRAJECTOIRE (NE PAS SE TROMPER !!!!!!!)
  * @return  renvoit le code erreur de l'asservissement (0 = déplacement normal, 1 = blocage, 2 = évitement)
  */
-uint8_t passe_part (double x, double y, int8_t sens_marche, double pourcentage_vitesse, char last);
+void passe_part (double x, double y, int8_t sens_marche, double pourcentage_vitesse, char last);
 
 
 /******************************************************************************/
@@ -167,7 +167,7 @@ uint8_t passe_part (double x, double y, int8_t sens_marche, double pourcentage_v
  * @param pourcentage_vitesse : Vitesse de 0 à 100 %
  * @return  renvoit le code erreur de l'asservissement (0 = déplacement normal, 1 = blocage, 2 = évitement)
  */
-uint8_t calage (double distance, double pourcentage_vitesse);
+void calage (double distance, double pourcentage_vitesse);
 
 
 /**
@@ -181,7 +181,7 @@ uint8_t calage (double distance, double pourcentage_vitesse);
  * @param pourcentage_vitesse : Vitesse de 0 à 100 %
  * @return  renvoit le code erreur de l'asservissement (0 = déplacement normal, 1 = blocage, 2 = évitement)
  */
-uint8_t calage_X (double x, double teta, int8_t sens_marche, double pourcentage_vitesse);
+void calage_X (double x, double teta, int8_t sens_marche, double pourcentage_vitesse);
 
 
 /**
@@ -195,7 +195,7 @@ uint8_t calage_X (double x, double teta, int8_t sens_marche, double pourcentage_
  * @param pourcentage_vitesse : Vitesse de 0 à 100%
  * @return  renvoit le code erreur de l'asservissement (0 = déplacement normal, 1 = blocage, 2 = évitement)
  */
-uint8_t calage_Y (double y, double teta, int8_t sens_marche, double pourcentage_vitesse);
+void calage_Y (double y, double teta, int8_t sens_marche, double pourcentage_vitesse);
 
 
 /**
@@ -208,7 +208,7 @@ uint8_t calage_Y (double y, double teta, int8_t sens_marche, double pourcentage_
  * @param pourcentage_vitesse : Vitesse de 0 à 100%
  * @return  renvoit le code erreur de l'asservissement (0 = déplacement normal, 1 = blocage, 2 = évitement)
  */
-uint8_t calage_teta (double teta, int8_t sens_marche, double pourcentage_vitesse);
+void calage_teta (double teta, int8_t sens_marche, double pourcentage_vitesse);
 
 
 /******************************************************************************/
