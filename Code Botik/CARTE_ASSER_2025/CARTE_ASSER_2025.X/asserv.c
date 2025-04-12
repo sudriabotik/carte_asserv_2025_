@@ -851,8 +851,8 @@ void asserv_distance(void)
        if (FLAG_ASSERV.vitesse_fin_nulle == ON)
        {
            // calcul de la distance théorique de freinage (trapèze)
-           distance_freinage = (VITESSE[SYS_ROBOT].actuelle * VITESSE[SYS_ROBOT].theorique) / (2. * acc.deceleration.position.consigne); // vitesse actu ou théorique ?
-           
+           distance_freinage = (VITESSE[SYS_ROBOT].theorique * VITESSE[SYS_ROBOT].theorique) / (2. * acc.deceleration.position.consigne); // vitesse actu ou théorique ?
+           distance_freinage=distance_freinage*COEF_FREINAGE;
             if (distance_restante < 0.)
                 distance_restante *= -1.;
 
@@ -1091,7 +1091,7 @@ double fonction_PID (_enum_type_PID type)
             if (FLAG_ASSERV.phase_deceleration_distance == PHASE_NORMAL)
             {
                 #ifdef PETIT_ROBOT
-                    KP_hybride *= 0.1; //0.2
+                    KP_hybride *= 0.05; //0.2
                 #else
                     KP_hybride *= 0.05;
                 #endif
@@ -1167,4 +1167,23 @@ void calcul_position_robot (void)
     ROBOT.orientation_degre = ROBOT.orientation * 180. / Pi;
 }
 
+void debug_codeurs(void)
+{
+    // Affichage des registres physiques des codeurs
+    printf("== Debug Codeurs ==\r\n");
+    printf("POS1CNT: %d | POS2CNT: %d\r\n", POS1CNT, POS2CNT);
 
+    // Affichage des valeurs stockées dans ta structure POSITION après lecture et calcul
+    printf("Codeur D -> Nouvelle: %d, Ancienne: %d, Ecart (apres coef %f): %f\r\n",
+           POSITION[CODEUR_D].nouvelle,
+           POSITION[CODEUR_D].ancien,
+           COEF_D,
+           POSITION[CODEUR_D].ecart);
+
+    printf("Codeur G -> Nouvelle: %d, Ancienne: %d, Ecart (apres coef %f): %f\r\n",
+           POSITION[CODEUR_G].nouvelle,
+           POSITION[CODEUR_G].ancien,
+           COEF_G,
+           POSITION[CODEUR_G].ecart);
+    printf("===================\r\n");
+}

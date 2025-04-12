@@ -87,10 +87,25 @@ int main(int argc, char** argv)
     init_system();
     init_ax();
     TIMER_200ms = ACTIVE;
+  
+    CPT_TEMPS_MATCH.actif = OFF;
+    //strategie();
+    //EVITEMENT_ADV.mode = EVITEMENT_NORMAL;
+    EVITEMENT_ADV.actif = ON;
+    avancer_reculer(2000,30);
+    brake();
     
     //rejoindre(200, 200, MARCHE_ARRIERE, 25);
     brake();
-    while(1);
+    /*
+    while(1){
+        avancer_reculer(-1800,70);
+        delay_ms((500));
+        avancer_reculer(1800,70);
+        delay_ms((500));
+    }
+     */
+     while(1);
 
     //printf("\n\n\n\n\r INIT ROBOT : \n\n\n\n\n\n\r");
 
@@ -114,10 +129,11 @@ int main(int argc, char** argv)
 #endif
     
     
-    rejoindre(500, 1500, MARCHE_ARRIERE, 25);
-    brake();
+    //rejoindre(500, 1500, MARCHE_ARRIERE, 25);
+        
+   
+    
     while(1);
-    strategie();
     //homologation();
     //reglage_odometrie();
    

@@ -103,6 +103,7 @@ void get_valeur_codeur (int codeur)
     }
     else
     {
+        
         POSITION [codeur].nouvelle = POS2CNT;
         max_codeur = MAX_CODEUR_G;
         sens_rotation = SENS_ROT_G;

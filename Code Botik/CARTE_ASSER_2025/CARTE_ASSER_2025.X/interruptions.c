@@ -32,6 +32,11 @@ void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt(void)
 
     // odométrie
    calcul_position_robot();
+   
+    #ifdef DEBUG_CODEURS
+    debug_codeurs();
+    #endif
+
 
    if (FLAG_ASSERV.totale == ON)
         asserv();
@@ -94,7 +99,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _T3Interrupt(void)
     
     TIMER_20ms = DESACTIVE;
     
-    autom_20ms();
+    //autom_20ms();
     
     #ifndef NO_SERIALUS   
     
@@ -106,9 +111,10 @@ void __attribute__((__interrupt__, no_auto_psv)) _T3Interrupt(void)
     }
         
     #endif
-     #ifdef SerialusM2MTrue
+
+    #ifdef SerialusM2MTrue
     
-    if (serialusM2M.clignotement_en_cours == true)
+    if (serialusM2M.clignotement_en_cours== true)
     {
         #ifdef DEBUG_ACTIF
             debug();
@@ -116,7 +122,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _T3Interrupt(void)
     }
         
     #endif
-    
+   
     
     TMR3 = 0;
     FLAG_TIMER_20ms = 0;        //On clear le flag d'interruption du timer
@@ -128,6 +134,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _T3Interrupt(void)
  */
 void __attribute__((__interrupt__, no_auto_psv)) _T4Interrupt(void)
 {  
+    
     if (CPT_TEMPS_MATCH.t_ms >= TEMPS_MATCH_MS)
     {
         PORTCbits.RC5 = 0;
@@ -168,7 +175,9 @@ void __attribute__((__interrupt__, no_auto_psv)) _T4Interrupt(void)
         IPC7bits.U2RXIP = 7;     
         
         while(1);
-    }
+     
+      
+     }
     
 #ifndef NO_SERIALUS   
     if (serialus.clignotement_en_cours == true)
@@ -199,7 +208,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _T5Interrupt(void)
     if (serialus.actif == true)
         traitement_serialus();
 #endif
-    
+  
     TMR5 = 0;
     FLAG_TIMER_200ms = 0;        //On clear le flag d'interruption du timer
     TIMER_200ms = ACTIVE;

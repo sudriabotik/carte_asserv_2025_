@@ -542,7 +542,7 @@ _enum_erreur_asserv _rejoindre (double x, double y, int8_t sens_marche, double p
     acc.acceleration.orientation.consigne = acc.deceleration.orientation.max;
     acc.deceleration.orientation.consigne = acc.deceleration.orientation.max;
 #else
-    VITESSE_MAX.orientation = VITESSE_ANGLE_PAS / 2;
+    VITESSE_MAX.orientation = VITESSE_ANGLE_PAS / 10;
     calcul_acceleration_orientation();
 #endif
 

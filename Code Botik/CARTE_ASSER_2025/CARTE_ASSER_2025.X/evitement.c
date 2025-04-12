@@ -124,7 +124,7 @@ void evitement()
     
     if (EVITEMENT_ADV.actif == ON)
     {
-        ajustement_evitement_autonome();
+        //ajustement_evitement_autonome();
         
         // Premier check, le robot se stop
         if (check_evitement() && EVITEMENT_ADV.detection == OFF)
@@ -174,7 +174,6 @@ void evitement()
                         evitement_en_cours = true;
                         compteur = 0;
                         fin_deplacement();
-                        EVITEMENT_ADV.detection = OFF;
                     }
                     else
                     {

@@ -1518,6 +1518,7 @@ void rej()
     else
     {
         init_clignotement();
+        
         print_erreur_deplacementM2M(_rejoindre(x, y, s, v));
     }
 }
@@ -2029,7 +2030,7 @@ void reset_ENTRAXE_MM()
 {
     ENTRAXE_MM = _ENTRAXE_MM;
     calcul_var_odom_asserv();
-    printf(" %f \n , ENTRAXE_TICKS= %f", ENTRAXE_MM, ENTRAXE_TICKS);
+    printf("entraxe mm : %f  , ENTRAXE_TICKS= %f \n", ENTRAXE_MM, ENTRAXE_TICKS);
 }
 
 void reset_DIAMETRE_ROUE_CODEUSE()
@@ -2140,6 +2141,7 @@ bool sontdesdigits(const char *str)
 
 void print_erreur_deplacementM2M(_enum_erreur_asserv erreur)
 {
+    
     serialusM2M.clignotement_en_cours = false;
     switch (erreur)
     {

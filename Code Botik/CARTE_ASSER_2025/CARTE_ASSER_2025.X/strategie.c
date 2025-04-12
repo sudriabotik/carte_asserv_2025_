@@ -841,19 +841,19 @@ void strategie(){
     STRATEGIE = STRAT2; //strategie_depart();
 
     // Initialisation
-    EVITEMENT_ADV.actif = OFF;
-    EVITEMENT_ADV.mode = STOP;
-    EVITEMENT_ADV.sens = MARCHE_AVANT;
-    CPT_TEMPS_MATCH.actif = OFF;
-    
+    EVITEMENT_ADV.actif = ON;
+  
    
 
     init_ax();
     //calage_depart(STRATEGIE);
-
-    EVITEMENT_ADV.actif = OFF;
+    /*
+    EVITEMENT_ADV.actif = ON;
     EVITEMENT_ADV.mode = ACTION_EVITEMENT;
     CPT_TEMPS_MATCH.actif = OFF;
+     */
+    
+    
     brake();
     while(1);
    

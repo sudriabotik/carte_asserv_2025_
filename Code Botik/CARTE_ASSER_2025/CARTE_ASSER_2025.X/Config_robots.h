@@ -25,11 +25,12 @@ extern "C" {
 /******************************************************************************/
 /***************************** Defines ****************************************/
 /******************************************************************************/
-#define PETIT_ROBOT
+#define GROS_ROBOT
 
 #define NO_SERIALUS     // Commanter la ligne pour avoir le serialus, décommanter pour supprimer le serialus
 #define SerialusM2MTrue   // test serialus machine to machine prototype
 #define DEBUG_ACTIF
+//#define DEBUG_CODEURS
     
 //#define MODULE_RF 
 //#define ARDUINO
@@ -65,7 +66,7 @@ extern "C" {
     #define _ACC_POSITION_MIN           1.5//1.105 //1. VIN //1. // 
     #define _DCC_POSITION_MIN           1.5//0.655// 1. VIN//0.25 //0.25 //1. //0.25 LAn
 
-    #define _COEF_FREINAGE                1.25//1.//1.
+    #define _COEF_FREINAGE                1.5//1.//1.
 
         //Association Angle - Vitesse - Accélérations max
     #define _VITESSE_ANGLE_MAX           0.02//0.1// VIN//0.015 
@@ -168,17 +169,17 @@ extern "C" {
 // Définition des standart pour la fonction évitement
 // ETAT : etat de detection du capteur (si il détecte à un : ETAT_HAUT)
 // NB : Si un capteur n'existe pas, le mettre à AUCUN et à ETAT_HAUT
-#define _CAPT_ADV_AVANT_G            AUCUN
-#define _CAPT_ADV_AVANT_D            AUCUN
-#define _CAPT_ADV_AVANT_C            AUCUN
+#define _CAPT_ADV_AVANT_G            CAPTEUR4
+#define _CAPT_ADV_AVANT_D            CAPTEUR2
+#define _CAPT_ADV_AVANT_C            CAPTEUR3
 
-#define _ETAT_ADV_AVANT_G            ETAT_HAUT
-#define _ETAT_ADV_AVANT_D            ETAT_HAUT
+#define _ETAT_ADV_AVANT_G            ETAT_BAS
+#define _ETAT_ADV_AVANT_D            ETAT_BAS
 #define _ETAT_ADV_AVANT_C            ETAT_HAUT
 
-#define _CAPT_ADV_ARRIERE_G          AUCUN
+#define _CAPT_ADV_ARRIERE_G          CAPTEUR1
 #define _CAPT_ADV_ARRIERE_C          AUCUN
-#define _CAPT_ADV_ARRIERE_D          AUCUN
+#define _CAPT_ADV_ARRIERE_D          CAPTEUR5
 
 #define _ETAT_ADV_ARRIERE_G          ETAT_HAUT
 #define _ETAT_ADV_ARRIERE_C          ETAT_HAUT

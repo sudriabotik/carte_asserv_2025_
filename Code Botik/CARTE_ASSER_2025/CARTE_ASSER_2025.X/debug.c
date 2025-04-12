@@ -17,8 +17,12 @@
 #include "system.h"
 
 
+
 void debug ()
 {
+ 
+    
+     
     //asserv
     printf("\t%lf \t%lf \t%lf \t%lf", ORIENTATION.consigne, ORIENTATION.actuelle, DISTANCE.consigne, DISTANCE.actuelle);
     printf("\t%lf ", VITESSE[SYS_ROBOT].theorique);
@@ -30,5 +34,22 @@ void debug ()
     printf("\t%lf \t%lf ", ERREUR_ORIENTATION.actuelle, ERREUR_DISTANCE.actuelle);
     printf("\t%lld \t%lf ", FLAG_ASSERV.immobilite, Pi);
     printf("\r");
+     
 }
 
+volatile unsigned long debug_counter = 0;
+/*
+void debug(void)
+{
+    
+       printf("%d;", POSITION [CODEUR_D].nouvelle);
+    printf("%d;", OVERFLOW_CODEUR [CODEUR_D]);
+    printf("%d;", POSITION [CODEUR_G].nouvelle);
+    printf("%d\n", OVERFLOW_CODEUR [CODEUR_G]);
+ 
+    // Simulate a timestamp by incrementing by 200 
+    debug_counter += 200;
+    // Print the values with no extra text.
+    printf("%lu;%d;%d;%d;%d\n", debug_counter, POS1CNT, QEI1CONbits.CNTERR, POS2CNT, QEI2CONbits.CNTERR);
+}
+*/
