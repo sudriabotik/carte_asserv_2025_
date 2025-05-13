@@ -34,6 +34,8 @@ void debug ()
     printf("\t%lf \t%lf ", ERREUR_ORIENTATION.actuelle, ERREUR_DISTANCE.actuelle);
     printf("\t%lld \t%lf ", FLAG_ASSERV.immobilite, Pi);
     printf("\r");
+    
+    
      
 }
 

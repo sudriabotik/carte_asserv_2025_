@@ -90,12 +90,11 @@ int main(int argc, char** argv)
     CPT_TEMPS_MATCH.actif = OFF;
     //strategie();
     EVITEMENT_ADV.mode = EVITEMENT_NORMAL;
-    EVITEMENT_ADV.actif = ON;
-    avancer_reculer(2000,30);
+    EVITEMENT_ADV.actif = OFF;
+    //avancer_reculer(2000,30);
     brake();
     
     //rejoindre(200, 200, MARCHE_ARRIERE, 25);
-    brake();
     /*
     while(1){
         avancer_reculer(-1800,70);

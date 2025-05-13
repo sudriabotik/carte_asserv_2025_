@@ -41,6 +41,7 @@ void calageY();
 void calageALL();
 
 void set_Break();
+void set_UnBreak();
 
 bool sontdesdigits(const char* str);
 void InitPosM2M();

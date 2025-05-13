@@ -536,15 +536,13 @@ _enum_erreur_asserv _rejoindre (double x, double y, int8_t sens_marche, double p
     calcul_vitesse_position(pourcentage_vitesse);
     calcul_acceleration_position();
 
-    
-#ifdef PETIT_ROBOT
-    VITESSE_MAX.orientation = VITESSE_ANGLE_PAS ;
-    acc.acceleration.orientation.consigne = acc.deceleration.orientation.max;
-    acc.deceleration.orientation.consigne = acc.deceleration.orientation.max;
-#else
     VITESSE_MAX.orientation = VITESSE_ANGLE_PAS / 10;
     calcul_acceleration_orientation();
-#endif
+    acc.acceleration.orientation.consigne *= 0.3;
+    acc.deceleration.orientation.consigne *= 0.3;
+    
+    
+
 
 
     FLAG_ASSERV.position = ON;

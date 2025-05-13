@@ -4,9 +4,9 @@
 /* Fichier 	: Config_robots.h
  * Auteur  	: Quentin
  * Revision	: 1.0
- * Date		: 4 décembre 2014, 12:52
+ * Date		: 4 d?cembre 2014, 12:52
  *******************************************************************************
- *  Fichier qui permet très facilemet d'adapter les paramètres pour changer
+ *  Fichier qui permet tr?s facilemet d'adapter les param?tres pour changer
  *  de robots.
  *
  ******************************************************************************/
@@ -27,7 +27,7 @@ extern "C" {
 /******************************************************************************/
 #define GROS_ROBOT
 
-#define NO_SERIALUS     // Commanter la ligne pour avoir le serialus, décommanter pour supprimer le serialus
+#define NO_SERIALUS     // Commanter la ligne pour avoir le serialus, d?commanter pour supprimer le serialus
 #define SerialusM2MTrue   // test serialus machine to machine prototype
 #define DEBUG_ACTIF
 //#define DEBUG_CODEURS
@@ -42,55 +42,55 @@ extern "C" {
  /**************************************************************************/
     /****************************** ODOMETRIE *********************************/
     /**************************************************************************/
-    #define _ENTRAXE_MM                302.46 //JAMES //174.7// 173.25// 173.75 vincent //170.75 //Pas assez tourné -> augmenter entraxe
-    #define _DIAMETRE_ROUE_CODEUSE       63.0//JAMES//51.9715   //51.9715     //Toujours dans le sens de l'erreur : aller plus loin = diminuer D
+    #define _ENTRAXE_MM                302.32//302.46 //JAMES tt //174.7// 173.25// 173.75 vincent //170.75 //Pas assez tourn? -> augmenter entraxe
+    #define _DIAMETRE_ROUE_CODEUSE       63.52//63.0//JAMES//51.9715   //51.9715     //Toujours dans le sens de l'erreur : aller plus loin = diminuer D
     #define _PERIMETRE_ROUE_MM         (_DIAMETRE_ROUE_CODEUSE*_Pi)  //JAMES//196.0 //195.4 //194.91//195.1 Si distance parcourue trop grande -> Augmenter la taille des roues
   
 
     #define  _COEF_D                    (double) 1.000//1.0017 VIN //  //1.00372     1.004 gauche x=1.003  1.0025droite //augmente = + devie a gauche
     //+COEF_D -> + a droite
-    #define  _COEF_G                    (double) 1.000   //augmente = + devie a droite
+    #define  _COEF_G                    (double) 1.0003   //augmente = + devie a droite
     //+COEF_G -> + a gauche
     /**************************************************************************/
     /******************************** ASSERV **********************************/
     /**************************************************************************/
-        //Association distance - Vitesse - Accélérations max
-    #define _VITESSE_CONSIGNE_MAX_MM     2.5//011.// VINCENT//2. //1. //2. //2.8 
+        //Association distance - Vitesse - Acc?l?rations max
+    #define _VITESSE_CONSIGNE_MAX_MM     0.2//2.5//011.// VINCENT//2. //1. //2. //2.8 
 
-    #define _VITESSE_DISTANCE_MIN        0.75
-    #define _VITESSE_MAX_MM_TENSION      6.//4.//2.2 //4.
-    #define _DISTANCE_CONSIGNE_MM        500.//400
+    #define _VITESSE_DISTANCE_MIN        0.45//0.75
+    #define _VITESSE_MAX_MM_TENSION      5.//6.//2.2 //4.
+    #define _DISTANCE_CONSIGNE_MM        340.//500.//400
 
-    #define _ACC_POSITION_CONSIGNE      3.///1.35//2.5 //VIN //0.5  
-    #define _DCC_POSITION_CONSIGNE      6.//1.05//2.5 //VIN//0.5 //2.8//0.5  LA
-    #define _ACC_POSITION_MIN           1.5//1.105 //1. VIN //1. // 
-    #define _DCC_POSITION_MIN           1.5//0.655// 1. VIN//0.25 //0.25 //1. //0.25 LAn
+    #define _ACC_POSITION_CONSIGNE      2.//3.///1.35//2.5 //VIN //0.5  
+    #define _DCC_POSITION_CONSIGNE      2.//6.//1.05//2.5 //VIN//0.5 //2.8//0.5  LA
+    #define _ACC_POSITION_MIN           1.//1.5//1.105 //1. VIN //1. // 
+    #define _DCC_POSITION_MIN           1.4//1.5//0.655// 1. VIN//0.25 //0.25 //1. //0.25 LAn
 
-    #define _COEF_FREINAGE                1.5//1.//1.
+    #define _COEF_FREINAGE                1.25//1.5//1.//1.
 
-        //Association Angle - Vitesse - Accélérations max
+        //Association Angle - Vitesse - Acc?l?rations max
     #define _VITESSE_ANGLE_MAX           0.02//0.1// VIN//0.015 
     #define _VITESSE_ANGLE_MIN           0.005
     #define _ORIENTATION_CONSIGNE_DEG    90.
 
-    #define _ACC_ORIENTATION_CONSIGNE    4.//2. 
-    #define _DCC_ORIENTATION_CONSIGNE    6.//2.
+    #define _ACC_ORIENTATION_CONSIGNE    4.//4.//2. 
+    #define _DCC_ORIENTATION_CONSIGNE    5.//6.//2.
     #define _ACC_ORIENTATION_MIN         2.//0.5
     #define _DCC_ORIENTATION_MIN         3.//0.5
 
-        //Autres réglages asserv
+        //Autres r?glages asserv
     #define _SEUIL_IMMOBILITE               100ULL//75ULL //200
-    #define _MAX_ERREUR_INTEGRALLE_V    4500.//10000.//100000.//10000. //3500.
+    #define _MAX_ERREUR_INTEGRALLE_V    17500.//4500.//10000.//100000.//10000. //3500.
     #define _MAX_E_INTEGRALLE_BRAKE     500.//1000. //12000
 
     /**************************************************************************/
-    /********************************* PID ************************************/ // PID === Present Passé Futur
+    /********************************* PID ************************************/ // PID === Present Pass? Futur
     /**************************************************************************/
 
     //PID
-    #define _VITESSE_DIS_KP            0.45//0.98//0.5//0.25  VINCENT     //0.8 //1. //0.8 //1.5 //0.8 
-    #define _VITESSE_DIS_KI           0.05//0.0855// 0.005//0.0005 vin //0.08//0.082 //0.13 //0.3 //0.1 //0.05 //0.02 //0.045
-    #define _VITESSE_DIS_KD            0.35 //0.55//0.2// vin //0.8//0.9 //1.0 //0.8 //0.5 //0.2
+    #define _VITESSE_DIS_KP            0.4595//0.45//0.98//0.5//0.25  VINCENT     //0.8 //1. //0.8 //1.5 //0.8 
+    #define _VITESSE_DIS_KI           0.0473//0.05//0.0855// 0.005//0.0005 vin //0.08//0.082 //0.13 //0.3 //0.1 //0.05 //0.02 //0.045
+    #define _VITESSE_DIS_KD            0.356//0.35 //0.55//0.2// vin //0.8//0.9 //1.0 //0.8 //0.5 //0.2
     
     #define _POSITION_KP                 1.
     #define _POSITION_KI                 0.//0
@@ -125,7 +125,7 @@ extern "C" {
     /**************************************************************************/
 
 
-    //Paramètres codeurs, et moteurs
+    //Param?tres codeurs, et moteurs
     //Sens rotation codeur
     #define _SENS_ROT_D                  1L
     #define _SENS_ROT_G                  1L
@@ -157,7 +157,7 @@ extern "C" {
 /**************************************************************************/
 
 
-//La définition des ports relatif à chaque carte se trouve
+//La d?finition des ports relatif ? chaque carte se trouve
 //Dans le fichier system.h
 
 #define CAPT_IR_ARRIERE_DROIT      AUCUN //CAPTEUR4
@@ -166,9 +166,9 @@ extern "C" {
 #define CAPT_IR_AVANT_GAUCHE       AUCUN //CAPTEUR5
 
 
-// Définition des standart pour la fonction évitement
-// ETAT : etat de detection du capteur (si il détecte à un : ETAT_HAUT)
-// NB : Si un capteur n'existe pas, le mettre à AUCUN et à ETAT_HAUT
+// D?finition des standart pour la fonction ?vitement
+// ETAT : etat de detection du capteur (si il d?tecte ? un : ETAT_HAUT)
+// NB : Si un capteur n'existe pas, le mettre ? AUCUN et ? ETAT_HAUT
 #define _CAPT_ADV_AVANT_G            CAPTEUR4
 #define _CAPT_ADV_AVANT_D            CAPTEUR2
 #define _CAPT_ADV_AVANT_C            CAPTEUR3
@@ -200,4 +200,3 @@ extern "C" {
 #endif
 
 #endif	/* CONFIG_ROBOTS_H */
-
