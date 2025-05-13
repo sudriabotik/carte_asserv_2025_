@@ -20,7 +20,7 @@
 /******************************************************************************/
 /**************************** FONCTIONS COULEURS ******************************/
 /******************************************************************************/
-const double max_vitesse = 30.;
+const double max_vitesse = 100.;
     
 uint8_t couleur_depart()
 {
@@ -155,10 +155,10 @@ void orienter (double angle, double pourcentage_vitesse)
 void rejoindre (double x, double y, int8_t sens_marche, double pourcentage_vitesse)
 {
     // Commencer par orienter avant de rejoindre
-    if (sens_marche == MARCHE_AVANT) _cibler(x, y, pourcentage_vitesse > 50 ? 50 : pourcentage_vitesse);
-    else _cibler_arriere(x, y, pourcentage_vitesse > 50 ? 50 : pourcentage_vitesse);
+    if (sens_marche == MARCHE_AVANT) _cibler(x, y, pourcentage_vitesse );
+    else _cibler_arriere(x, y, pourcentage_vitesse);
 
-    pourcentage_vitesse = (pourcentage_vitesse > max_vitesse) ? max_vitesse : pourcentage_vitesse;
+    //pourcentage_vitesse = (pourcentage_vitesse > max_vitesse) ? max_vitesse : pourcentage_vitesse;
     uint8_t erreur = _rejoindre (x, y, sens_marche, pourcentage_vitesse);
     if ( erreur == EVITEMENT)
     {
@@ -204,7 +204,7 @@ void avancer_reculer (double distance, double pourcentage_vitesse)
 
 void passe_part (double x, double y, int8_t sens_marche, double pourcentage_vitesse, char last)
 {
-    pourcentage_vitesse = (pourcentage_vitesse > max_vitesse) ? max_vitesse : pourcentage_vitesse;
+   // pourcentage_vitesse = (pourcentage_vitesse > max_vitesse) ? max_vitesse : pourcentage_vitesse;
 
     uint8_t erreur = _passe_part (x, y, sens_marche, pourcentage_vitesse, last);
     if ( erreur == EVITEMENT)
